@@ -1,0 +1,223 @@
+<script type="text/javascript">
+  RED.nodes.registerType('gameon-mcp23017-chip', {
+    category: 'config',
+    defaults: {
+      name: { value: '' },
+      addr: { value: '0x27', required: true },
+      interval: { value: 100, required: true },
+    },
+    label: function () {
+      return this.name ? `${this.name} @ ${this.addr}` : this.addr
+    }
+  })
+</script>
+<script type="text/x-red" data-template-name="gameon-mcp23017-chip">
+	<div class="form-row">
+    <label for="node-config-input-name"><i class="icon-tag"></i> Name</label>
+    <input type="text" id="node-config-input-name" placeholder="Name">
+  </div>
+  <div class="form-row">
+		<label for="node-config-input-addr"><i class="icon-bookmark"></i> Address</label>
+		<select type="text" id="node-config-input-addr" style="width:70px;">
+       <option value="0x20">0x20</option>
+       <option value="0x21">0x21</option>
+       <option value="0x22">0x22</option>
+       <option value="0x23">0x23</option>
+       <option value="0x24">0x24</option>
+       <option value="0x25">0x25</option>
+       <option value="0x26">0x26</option>
+       <option value="0x27">0x27</option>
+    </select>
+	</div>     
+	<div class="form-row">
+		<label for="node-config-input-interval"><i class="icon-bookmark"></i> Interval in ms</label>
+		<input type="number" id="node-config-input-interval">
+	</div>
+ </script>
+
+
+<script type="text/javascript">
+  RED.nodes.registerType('gameon-mcp23017-input', {
+    category: 'function',
+    color: '#DEB887',
+    defaults: {
+      name: { value: "" },
+      chipNodeID: { type: 'gameon-mcp23017-chip', required: true },
+      pinNum: { required: true },
+      pullUp: { value: true },
+      invert: { value: true },
+      debounce: { value: 200 },
+      onMsg: { value: true },
+      offMsg: { value: true }
+    },
+    inputs: 0,
+    outputs: 1,
+    icon: "font-awesome/fa-microchip",
+    label: function () {
+      return this.name || "gameon-mcp23017-input";
+    }
+  });
+</script>
+<script type="text/x-red" data-template-name="gameon-mcp23017-input">
+	<div class="form-row">
+		<label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+		<input type="text" id="node-input-name" placeholder="Name">
+	</div>
+	<div class="form-row">
+		<label for="node-input-chipNodeID"><i class="fa fa-microchip"></i> Chip</label>
+		<input type="text" id="node-input-chipNodeID">
+	</div>
+	<div class="form-row">
+		<label for="node-input-pinNum"><i class="fa fa-bolt"></i> Pin Number</label>
+    <select id="node-input-pinNum" style="width: 4rem">
+      <option value="1">0</option>
+      <option value="1">1</option>
+      <option value="3">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+      <option value="6">6</option>
+      <option value="7">7</option>
+      <option value="8">8</option>
+      <option value="9">9</option>
+      <option value="10">10</option>
+      <option value="11">11</option>
+      <option value="12">12</option>
+      <option value="13">13</option>
+      <option value="14">14</option>
+      <option value="15">15</option>
+    </select>  
+	</div>
+	<div class="form-row">
+		<label for="node-input-pullUp"><i class="fa fa-arrow-up"></i> Pull Up</label>
+		<input type="checkbox" id="node-input-pullUp" style="width: 1rem">
+	</div>
+	<div class="form-row">
+		<label for="node-input-invert"><i class="fa fa-circle"></i> Invert</label>
+		<input type="checkbox" id="node-input-invert" style="width: 1rem" >
+	</div>
+	<div class="form-row">
+		<label for="node-input-debounce"><i class="fas fa-water"></i> Debounce</label>
+		<input type="number" id="node-input-debounce" style="width: 10rem" > ms
+	</div>
+	<div class="form-row">
+		<label for="node-input-onMsg"><i class="fa fa-toggle-on"></i> On Msg</label>
+		<input type="checkbox" id="node-input-onMsg" style="width: 1rem" >
+	</div>
+	<div class="form-row">
+		<label for="node-input-offMsg"><i class="fa fa-toggle-off"></i> Off Msg</label>
+		<input type="checkbox" id="node-input-offMsg" style="width: 1rem" >
+	</div>
+</script>
+<script type="text/html" data-help-name="gameon-mcp23017-output">
+  <h1>
+    Game On Berkeley's MCP23017 Chip Input Processor Node-Red Node for use
+    on a Raspberry Pi.
+  </h1>
+  <p>
+    This node-red node provides input for
+    The MCP23017 Inter-Integrated Circuit (i2c) Chip for specific use
+    at our company 
+    <a href="https://www.gameonberkeley.com/">Game On</a> in
+    Berkeley California. Feel free to use this for your own purposes though
+    we don't have the bandwidth to support it.
+  </p>
+  <p>
+    Purposefully not backwards compatible (sorry about that) to
+    keep things simple for our needs (YAGNI).
+  </p>
+  <p>
+    This code was largely stolen/borrowed from 
+    <a href="https://github.com/PizzaProgram/mcp23017chip">https://github.com/PizzaProgram/mcp23017chip</a>.
+    Huge thanks to 
+    <a href="https://github.com/PizzaProgram">PizzaProgram Ltd.</a>!!!
+  </p>
+</script>
+
+
+<script type="text/javascript">
+  RED.nodes.registerType('gameon-mcp23017-output', {
+    category: 'function',
+    color: '#C7E9C0',
+    defaults: {
+      name: { value: '' },
+      chipNodeID: { type: 'gameon-mcp23017-chip', required: true },
+      pinNum: { required: true },
+      invert: { value: true }
+    },
+    inputs: 1,
+    outputs: 1,
+    icon: "font-awesome/fa-microchip",
+    label: function () {
+      return this.name || "gameon-mcp23017-output"
+    },
+  })
+</script>
+<script type="text/x-red" data-template-name="gameon-mcp23017-output">
+	<div class="form-row">
+		<label for="node-input-name"><i class="icon-tag"></i> Name</label>
+		<input type="text" id="node-input-name" placeholder="Name">
+	</div>
+	<div class="form-row">
+		<label for="node-input-chipNodeID"><i class="fa fa-microchip"></i> Chip</label>
+		<input type="text" id="node-input-chipNodeID">
+	</div>
+	<div class="form-row">
+		<label for="node-input-pinNum"><i class="fa fa-bolt"></i> Pin Number</label>
+    <select id="node-input-pinNum" style="width: 4rem">
+      <option value="1">0</option>
+      <option value="1">1</option>
+      <option value="3">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+      <option value="6">6</option>
+      <option value="7">7</option>
+      <option value="8">8</option>
+      <option value="9">9</option>
+      <option value="10">10</option>
+      <option value="11">11</option>
+      <option value="12">12</option>
+      <option value="13">13</option>
+      <option value="14">14</option>
+      <option value="15">15</option>
+    </select>  
+	</div>
+	<div class="form-row">
+		<label for="node-input-invert"><i class="icon-tag"></i> Invert</label>
+		<input type="checkbox" id="node-input-invert" placeholder="Invert">
+	</div>
+</script>
+
+
+<script type="text/html" data-template-name="gameon-mcp23017-output">
+  <div class="form-row">
+      <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+      <input type="text" id="node-input-name" placeholder="Name">
+  </div>
+</script>
+
+<script type="text/html" data-help-name="gameon-mcp23017-output">
+  <h1>
+    Game On Berkeley's MCP23017 Chip Output Processor Node-Red Node for use
+    on a Raspberry Pi.
+  </h1>
+  <p>
+    This node-red node provides output for
+    The MCP23017 Inter-Integrated Circuit (i2c) Chip for specific use
+    at our company 
+    <a href="https://www.gameonberkeley.com/">Game On</a> in
+    Berkeley California. Feel free to use this for your own purposes though
+    we don't have the bandwidth to support it.
+  </p>
+  <p>
+    Purposefully not backwards compatible (sorry about that) to
+    keep things simple for our needs (YAGNI).
+  </p>
+  <p>
+    This code was largely stolen/borrowed from 
+    <a href="https://github.com/PizzaProgram/mcp23017chip">https://github.com/PizzaProgram/mcp23017chip</a>.
+    Huge thanks to 
+    <a href="https://github.com/PizzaProgram">PizzaProgram Ltd.</a>!!!
+  </p>
+</script>
