@@ -9,6 +9,7 @@ class MCP23017Chip {
     this.intervalMs = intervalMs
     this.node = node
     this.inputPullUpPins = {}
+    this.outputPins = {}
     this.mcp = new MCP23017({
       address: this.address,
       busNumber: this.busNumber,
@@ -19,14 +20,36 @@ class MCP23017Chip {
     this.intervalID = setInterval(() => { this.checkInputPins() }, this.intervalMs)
   }
 
-  setInputPullUpPin({ pinNum, inputEventManager }) {
+  registerInputPullUpPin({ pinNum, inputPullupPinManager }) {
     try {
       this.mcp.pinMode(pinNum, this.mcp.INPUT_PULLUP)
-      this.inputPullUpPins[`${pinNum}`] = inputEventManager
+      delete this.outputPins[`${pinNum}`]
+      this.inputPullUpPins[`${pinNum}`] = inputPullupPinManager
     } catch (error) {
-      this.node.error('MCP23017Chip error @ setInputPullUpPin')
+      this.node.error('MCP23017Chip error @ registerInputPullUpPin')
       console.error(error)
     }
+  }
+
+  registerOutputPin({ pinNum, outputEventManager }) {
+    try {
+      this.mcp.pinMode(pinNum, this.mcp.OUTPUT)
+      delete this.inputPullUpPins[`${pinNum}`]
+      this.outputPins[`${pinNum}`] = outputEventManager
+    } catch (error) {
+      this.node.error('MCP23017Chip error @ registerOutputPin')
+      console.error(error)
+    }
+  }
+
+  digitalWriteOutput({ pinNum, value }) {
+    try {
+      this.mcp.digitalWrite(pinNum, value)
+    } catch (error) {
+      this.node.error('MCP23017Chip error @ digitalWriteOutput')
+      console.error(error)
+    }
+
   }
 
   checkInputPins() {

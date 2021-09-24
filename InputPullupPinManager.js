@@ -4,7 +4,7 @@ class InputPullupPinManager extends PinManager {
   constructor({ RED, node, pinNum, chipNodeID }) {
     super({ RED, node, pinNum, chipNodeID })
     this.lastPinState = 'unknown'
-    this.chip.setInputPullUpPin({ pinNum, inputEventManager: this })
+    this.chip.registerInputPullUpPin({ pinNum, inputPullupPinManager: this })
   }
 
   toggleState(state) {

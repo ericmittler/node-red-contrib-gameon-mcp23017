@@ -10,6 +10,7 @@ class PinManager {
       text: `Pin ${this.pinNum} @ ${this.chip.address} initializing`
     })
     this.node.on('close', (removed, done) => this.close({ done, removed }))
+    this.chip.registerOutputPin({ pinNum, outputEventManager: this })
   }
 
   close({ done, removed }) {
