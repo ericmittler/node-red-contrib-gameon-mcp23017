@@ -1,15 +1,4 @@
-class Chip {
-  constructor({ node, name, addr, interval }) {
-    this.name = name
-    this.addr = parseInt(addr, 16)
-    this.interval = interval
-    this.node = node
-    this.node.log(`------------------  name: ${this.name}`)
-    this.node.log(`------------------  addr: ${this.addr}`)
-    this.node.log(`------------------  interval: ${this.interval}`)
-  }
-}
-
+const { MCP23017Chip } = require('./MCP23017Chip')
 const { MCP23017OutputPinEventManager } = require('./MCP23017OutputPinEventManager')
 const { MCP23017InputPinEventManager } = require('./MCP23017InputPinEventManager')
 
@@ -17,7 +6,7 @@ module.exports = (RED) => {
 
   function MCP23017ChipConfigNode(config) {
     RED.nodes.createNode(this, config)
-    this.chip = new Chip({ RED, node: this, ...config })
+    this.chip = new MCP23017Chip({ RED, node: this, ...config })
   }
   RED.nodes.registerType('gameon-mcp23017-chip', MCP23017ChipConfigNode)
 
