@@ -1,6 +1,6 @@
-const { MCP23017PinNodeEventManager } = require('./MCP23017PinNodeEventManager')
+const { PinManager } = require('./PinManager')
 
-class MCP23017OutputPinEventManager extends MCP23017PinNodeEventManager {
+class OutputPinManager extends PinManager {
   constructor({ RED, node, pinNum, chipNodeID }) {
     super({ RED, node, pinNum, chipNodeID })
     this.node.on('input', (msg, send, done) => this.input({ msg, send, done }))
@@ -18,4 +18,4 @@ class MCP23017OutputPinEventManager extends MCP23017PinNodeEventManager {
   }
 }
 
-module.exports = { MCP23017OutputPinEventManager }
+module.exports = { OutputPinManager }
