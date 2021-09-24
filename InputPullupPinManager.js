@@ -13,7 +13,7 @@ class InputPullupPinManager extends PinManager {
       this.node.send({ payload: active })
       this.lastPinState = state
       this.node.status({
-        fill: active ? 'green' : black, shape: 'dot',
+        fill: active ? 'green' : 'black', shape: 'dot',
         text: `Pin ${this.pinNum} @  ${this.chip.address} ` +
           `${active ? 'ACTIVE' : 'inactive'}`
       })
