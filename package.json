@@ -23,7 +23,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ericmittler/node-red-contrib-gameon-mcp23017.git"
+    "url": "https://github.com/ericmittler/node-red-contrib-gameon-mcp23017"
   },
   "bugs": {
     "url": "https://github.com/ericmittler/node-red-contrib-gameon-mcp23017/issues"
