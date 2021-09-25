@@ -1,6 +1,6 @@
 {
   "name": "node-red-contrib-gameon-mcp23017",
-  "version": "1.0.0",
+  "version": "0.5.0",
   "description": "Game On's implementation for input and output control of the MCP23017 Inter-Integrated Circuit (i2c) board",
   "dependencies": {
     "i2c-bus": "~5.2.2"
@@ -11,5 +11,18 @@
     "nodes": {
       "gameon-mcp23017": "gameon-mcp23017.js"
     }
-  }
+  },
+  "main": "gameon-mcp23017.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ericmittler/node-red-contrib-gameon-mcp23017.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ericmittler/node-red-contrib-gameon-mcp23017/issues"
+  },
+  "homepage": "https://github.com/ericmittler/node-red-contrib-gameon-mcp23017#readme"
 }
