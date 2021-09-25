@@ -8,18 +8,20 @@ class InputPinManager extends PinManager {
     this.chip.registerInputPin({ inputPinManager: this })
   }
 
+  label() {
+    return `Input ${this.pullUp && 'pull up'} pin ${this.pinNum} on ${this.chip.label()}`
+  }
+
   toggleState(state) {
     if (state != this.lastPinState) {
-      this.node.log(`Changing state for pin ${this.pinNum} to ${state}`)
       const active = state === 'active'
       this.node.send({ payload: active })
       this.lastPinState = state
       this.node.status({
         fill: active ? 'green' : 'black', shape: 'dot',
-        text: `Pull ${this.pullUp ? 'up' : 'down'} ` +
-          `Pin ${this.pinNum} @  ${this.chip.address} ` +
-          `${active ? 'ACTIVE' : 'inactive'}`
+        text: `${this.label()} is ${active ? 'ACTIVE' : 'inactive'}`
       })
+      this.node.debug(`Changed state for ${this.label()} to ${state}`)
     }
   }
 

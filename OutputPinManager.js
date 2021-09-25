@@ -4,7 +4,11 @@ class OutputPinManager extends PinManager {
   constructor({ RED, node, pinNum, chipNodeID, invert }) {
     super({ RED, node, pinNum, chipNodeID, invert })
     this.node.on('input', (msg, send, done) => this.input({ msg, send, done }))
-    this.chip.registerOutputPin({ outputEventManager: this })
+    this.chip.registerOutputPin({ outputPinManager: this })
+  }
+
+  label() {
+    return `Output pin ${this.pinNum} on ${this.chip.label()}`
   }
 
   input({ msg, send, done }) {
@@ -15,11 +19,11 @@ class OutputPinManager extends PinManager {
       try {
         let value = [1, true, 'on', '1', 'true'].includes(msg.payload)
         if (this.invert) { value = !value }
+        this.chip.digitalWriteOutput({ pinNum: this.pinNum, value })
         this.node.status({
           fill: value ? 'green' : 'black', shape: 'dot',
-          text: `Pin ${this.pinNum} @ ${this.chip.address} heard input "${value}"`
+          text: `Output pin ${this.pinNum} on ${this.chip.label()} last wrote "${value}"`
         })
-        this.chip.digitalWriteOutput({ pinNum: this.pinNum, value })
       } catch (error) {
         done(error)
       }

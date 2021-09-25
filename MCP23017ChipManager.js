@@ -1,10 +1,10 @@
 const MCP23017 = require('./mcp23017')
 
 class MCP23017ChipManager {
-  constructor({ node, name, busNumber, address, intervalMs }) {
+  constructor({ node, name, address, intervalMs }) {
     this.name = name
     this.address = parseInt(address, 16)
-    this.busNumber = parseInt(busNumber)
+    this.busNumber = 1
     this.intervalMs = intervalMs
     this.node = node
     this.inputPinManagers = {}
@@ -12,11 +12,15 @@ class MCP23017ChipManager {
     this.mcp = new MCP23017({
       address: this.address,
       busNumber: this.busNumber,
-      device: '/dev/i2c-1',
+      device: `/dev/i2c-1`,
       logger: this.node
     })
     this.node.on('close', (removed, done) => this.close({ done, removed }))
     this.intervalID = setInterval(() => { this.checkInputPins() }, this.intervalMs)
+  }
+
+  label() {
+    return `Chip ${this.name} (bus ${this.busNumber}; address:0X${this.address.toString(16)})`
   }
 
   registerInputPin({ inputPinManager }) {
@@ -25,17 +29,20 @@ class MCP23017ChipManager {
       this.mcp.pinMode(inputPinManager.pinNum, inputMode)
       delete this.outputPinManagers[`${inputPinManager.pinNum}`]
       this.inputPinManagers[`${inputPinManager.pinNum}`] = inputPinManager
+      this.node.log(`Registered input ${inputPinManager.pullUp && 'pull up'} ` +
+        `pin ${inputPinManager.pinNum} @ ${this.label()}`)
     } catch (error) {
       this.node.error('MCP23017Chip error @ registerInputPin')
       console.error(error)
     }
   }
 
-  registerOutputPin({ outputEventManager }) {
+  registerOutputPin({ outputPinManager }) {
     try {
-      this.mcp.pinMode(outputEventManager.pinNum, this.mcp.OUTPUT)
-      delete this.inputPinManagers[`${outputEventManager.pinNum}`]
-      this.outputPinManagers[`${outputEventManager.pinNum}`] = outputEventManager
+      this.mcp.pinMode(outputPinManager.pinNum, this.mcp.OUTPUT)
+      delete this.inputPinManagers[`${outputPinManager.pinNum}`]
+      this.outputPinManagers[`${outputPinManager.pinNum}`] = outputPinManager
+      this.node.log(`Registered output pin ${outputPinManager.pinNum} @ ${this.label()}`)
     } catch (error) {
       this.node.error('MCP23017Chip error @ registerOutputPin')
       console.error(error)
@@ -58,9 +65,6 @@ class MCP23017ChipManager {
           if (error) {
             throw error
           } else {
-            if(inputPinMgr.pinNum === 5) {
-              this.node.log(`Pin 5 checked ${value}`)
-            }
             if (inputPinMgr.invert) { value = !value }
             const state = value ? 'active' : 'inactive'
             inputPinMgr.toggleState(state)
