@@ -1,16 +1,16 @@
 class PinManager {
-  constructor({ RED, node, pinNum, chipNodeID }) {
+  constructor({ RED, node, pinNum, chipNodeID, invert }) {
     this.node = node
     this.pinNum = parseInt(pinNum)
     this.chipNodeID = chipNodeID
     this.chipNode = RED.nodes.getNode(this.chipNodeID)
     this.chip = this.chipNode.chip
+    this.invert = invert
     this.node.status({
       fill: 'yellow', shape: 'dot',
       text: `Pin ${this.pinNum} @ ${this.chip.address} initializing`
     })
     this.node.on('close', (removed, done) => this.close({ done, removed }))
-    this.chip.registerOutputPin({ pinNum, outputEventManager: this })
   }
 
   close({ done, removed }) {

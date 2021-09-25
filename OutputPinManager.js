@@ -1,9 +1,10 @@
 const { PinManager } = require('./PinManager')
 
 class OutputPinManager extends PinManager {
-  constructor({ RED, node, pinNum, chipNodeID }) {
-    super({ RED, node, pinNum, chipNodeID })
+  constructor({ RED, node, pinNum, chipNodeID, invert }) {
+    super({ RED, node, pinNum, chipNodeID, invert })
     this.node.on('input', (msg, send, done) => this.input({ msg, send, done }))
+    this.chip.registerOutputPin({ outputEventManager: this })
   }
 
   input({ msg, send, done }) {
@@ -12,7 +13,8 @@ class OutputPinManager extends PinManager {
     const allValidValues = trueValues.concat(falseValues)
     if (allValidValues.includes(msg.payload)) {
       try {
-        const value = [1, true, 'on', '1', 'true'].includes(msg.payload)
+        let value = [1, true, 'on', '1', 'true'].includes(msg.payload)
+        if (this.invert) { value = !value }
         this.node.status({
           fill: value ? 'green' : 'black', shape: 'dot',
           text: `Pin ${this.pinNum} @ ${this.chip.address} heard input "${value}"`

@@ -1,6 +1,6 @@
-const { MCP23017Chip } = require('./MCP23017Chip')
+const { MCP23017Chip } = require('./MCP23017ChipManager')
 const { OutputPinManager } = require('./OutputPinManager')
-const { InputPullUpPinManager } = require('./InputPullUpPinManager')
+const { InputPinManager } = require('./InputPinManager')
 
 module.exports = (RED) => {
 
@@ -18,7 +18,7 @@ module.exports = (RED) => {
 
   function MCP23017InputPinNode(config) {
     RED.nodes.createNode(this, config)
-    this.eventManager = new InputPullUpPinManager({ RED, node: this, ...config })
+    this.eventManager = new InputPinManager({ RED, node: this, ...config })
   }
   RED.nodes.registerType('gameon-mcp23017-input', MCP23017InputPinNode)
 

@@ -1,6 +1,6 @@
 const MCP23017 = require('./mcp23017')
 
-class MCP23017Chip {
+class MCP23017ChipManager {
   constructor({ node, name, busNumber, address, intervalMs }) {
     this.name = name
     this.address = parseInt(address, 16)
@@ -19,23 +19,23 @@ class MCP23017Chip {
     this.intervalID = setInterval(() => { this.checkInputPins() }, this.intervalMs)
   }
 
-  registerInputPin({ pinNum, inputPinManager }) {
+  registerInputPin({ inputPinManager }) {
     try {
       const inputMode = inputPinManager.pullUp ? this.mcp.INPUT_PULLUP : this.mcp.INPUT
-      this.mcp.pinMode(pinNum, inputMode)
-      delete this.outputPinManagers[`${pinNum}`]
-      this.inputPullUpPins[`${pinNum}`] = inputPinManager
+      this.mcp.pinMode(inputPinManager.pinNum, inputMode)
+      delete this.outputPinManagers[`${inputPinManager.pinNum}`]
+      this.inputPinManagers[`${inputPinManager.pinNum}`] = inputPinManager
     } catch (error) {
       this.node.error('MCP23017Chip error @ registerInputPin')
       console.error(error)
     }
   }
 
-  registerOutputPin({ pinNum, outputEventManager }) {
+  registerOutputPin({ outputEventManager }) {
     try {
-      this.mcp.pinMode(pinNum, this.mcp.OUTPUT)
-      delete this.inputPinManagers[`${pinNum}`]
-      this.outputPinManagers[`${pinNum}`] = outputEventManager
+      this.mcp.pinMode(outputEventManager.pinNum, this.mcp.OUTPUT)
+      delete this.inputPinManagers[`${outputEventManager.pinNum}`]
+      this.outputPinManagers[`${outputEventManager.pinNum}`] = outputEventManager
     } catch (error) {
       this.node.error('MCP23017Chip error @ registerOutputPin')
       console.error(error)
@@ -58,8 +58,11 @@ class MCP23017Chip {
           if (error) {
             throw error
           } else {
-            if (inputPinMgr.pullUp) { value = !value }
-            const state = value ? 'inactive' : 'active'
+            if(inputPinMgr.pinNum === 5) {
+              this.node.log(`Pin 5 checked ${value}`)
+            }
+            if (inputPinMgr.invert) { value = !value }
+            const state = value ? 'active' : 'inactive'
             inputPinMgr.toggleState(state)
           }
         })
@@ -76,4 +79,4 @@ class MCP23017Chip {
   }
 }
 
-module.exports = { MCP23017Chip }
+module.exports = { MCP23017Chip: MCP23017ChipManager }
