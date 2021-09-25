@@ -1,10 +1,11 @@
 const { PinManager } = require('./PinManager')
 
-class InputPullupPinManager extends PinManager {
-  constructor({ RED, node, pinNum, chipNodeID }) {
+class InputPinManager extends PinManager {
+  constructor({ RED, node, pinNum, chipNodeID, pullUp = true }) {
     super({ RED, node, pinNum, chipNodeID })
+    this.pullUp = pullUp
     this.lastPinState = 'unknown'
-    this.chip.registerInputPullUpPin({ pinNum, inputPullupPinManager: this })
+    this.chip.registerInputPin({ pinNum, pullUp, inputPinManager: this })
   }
 
   toggleState(state) {
@@ -22,4 +23,4 @@ class InputPullupPinManager extends PinManager {
 
 }
 
-module.exports = { InputPullupPinManager }
+module.exports = { InputPinManager }
