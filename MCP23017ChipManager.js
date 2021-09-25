@@ -29,8 +29,7 @@ class MCP23017ChipManager {
       this.mcp.pinMode(inputPinManager.pinNum, inputMode)
       delete this.outputPinManagers[`${inputPinManager.pinNum}`]
       this.inputPinManagers[`${inputPinManager.pinNum}`] = inputPinManager
-      this.node.log(`Registered input ${inputPinManager.pullUp && 'pull up'} ` +
-        `pin ${inputPinManager.pinNum} @ ${this.label()}`)
+      this.node.log(`Registered ${inputPinManager.label()} @ ${this.label()}`)
     } catch (error) {
       this.node.error('MCP23017Chip error @ registerInputPin')
       console.error(error)
