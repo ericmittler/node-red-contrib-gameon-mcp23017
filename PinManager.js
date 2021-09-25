@@ -8,7 +8,7 @@ class PinManager {
     this.invert = invert
     this.node.status({
       fill: 'yellow', shape: 'dot',
-      text: `Pin ${this.pinNum} @ ${this.chip.address} initializing`
+      text: `Pin ${this.pinNum} @ ${this.chip.label()} initializing`
     })
     this.node.on('close', (removed, done) => this.close({ done, removed }))
   }
