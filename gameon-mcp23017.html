@@ -35,8 +35,8 @@
     Always set to 1. We don't need any more busses yet.
 	</div>     
 	<div class="form-row">
-		<label for="node-config-input-intervalMs"><i class="icon-bookmark"></i> intervalMs in ms</label>
-		<input type="number" id="node-config-input-intervalMs">
+		<label for="node-config-input-intervalMs"><i class="icon-bookmark"></i> Interval</label>
+		<input type="number" id="node-config-input-intervalMs" style="width:4rem"> Milliseconds
 	</div>
  </script>
 
@@ -93,12 +93,13 @@
       <option value="15">15</option>
     </select>  
 	</div>
-	<div class="form-row">
+	<div class="form-row" style="display: flex; flex-direction: row; justify-content: flex-start;"">
 		<label for="node-input-pullUp"><i class="fa fa-arrow-up"></i> Pull Up</label>
-		<input type="checkbox" id="node-input-pullUp" style="width: 1rem">
+		<input type="checkbox" id="node-input-pullUp" style="width: 1rem;margin-left: 5px;">
+    <span style="padding-left:5px">Enable pull up resistor</span>
 	</div>
 	<div class="form-row">
-		<label for="node-input-invert"><i class="fa fa-arrow-up"></i> Invert</label>
+		<label for="node-input-invert"><i class="fa fa-adjust"></i> Invert</label>
 		<input type="checkbox" id="node-input-invert" style="width: 1rem">
 	</div>
 	<div class="form-row">
@@ -182,7 +183,7 @@
     </select>  
 	</div>
 	<div class="form-row">
-		<label for="node-input-invert"><i class="icon-tag"></i> Invert</label>
+		<label for="node-input-invert"><i class="fa fa-adjust"></i> Invert</label>
 		<input type="checkbox" id="node-input-invert" placeholder="Invert" style="width: 1rem">
 	</div>
 </script>
