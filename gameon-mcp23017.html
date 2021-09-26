@@ -187,8 +187,6 @@
 		<input type="checkbox" id="node-input-invert" placeholder="Invert" style="width: 1rem">
 	</div>
 </script>
-
-
 <script type="text/html" data-template-name="gameon-mcp23017-output">
   <div class="form-row">
       <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
@@ -218,5 +216,30 @@
     <a href="https://github.com/PizzaProgram/mcp23017chip">https://github.com/PizzaProgram/mcp23017chip</a>.
     Huge thanks to 
     <a href="https://github.com/PizzaProgram">PizzaProgram Ltd.</a>!!!
+  </p>
+</script>
+
+
+<script type="text/javascript">
+  RED.nodes.registerType('gameon-mcp23017-version', {
+    category: 'function',
+    color: '#990000',
+    defaults: {},
+    inputs: 1,
+    outputs: 1,
+    icon: "font-awesome/fa-microchip",
+    label: function () {
+      return this.name || "gameon-mcp23017-version"
+    },
+  })
+</script>
+<script type="text/x-red" data-template-name="gameon-mcp23017-version">
+</script>
+<script type="text/html" data-help-name="gameon-mcp23017-output">
+  <h1>Game On Berkeley's MCP23017 Chip Manager</h1>
+  <p>
+    This is just a utility node that outputs the version
+    number of this software and other diagnostic data
+    used for our debugging.
   </p>
 </script>
