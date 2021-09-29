@@ -1,7 +1,7 @@
 
 class GameOnVersionInfo {
   constructor({ node }) {
-    this.versions = { 'gameon-mcp23017': '51' }
+    this.versions = { 'gameon-mcp23017': '52' }
     this.node = node
     this.node.on('input', (msg, send, done) => this.sendVersions({ msg, send, done }))
     this.node.status({ fill: 'black', shape: 'dot', text: JSON.stringify(this.versions) })
