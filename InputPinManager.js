@@ -9,7 +9,9 @@ class InputPinManager extends PinManager {
   }
 
   label() {
-    return `Input ${this.pullUp ? 'pull up ' : ''}pin ${this.pinNum} on ${this.chip.label()}`
+    return `Input ${this.pullUp ? 'pull up ' : ''}pin ${this.pinNum} ` +
+      (this.invert ? '(inverted) ' : '') +
+      `on ${this.chip.label()}`
   }
 
   toggleState(state) {

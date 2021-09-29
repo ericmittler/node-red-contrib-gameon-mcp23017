@@ -8,7 +8,8 @@ class OutputPinManager extends PinManager {
   }
 
   label() {
-    return `Output pin ${this.pinNum} on ${this.chip.label()}`
+    return `Output pin ${this.pinNum} ` +
+      (this.invert ? '(inverted) ' : '') + `on ${this.chip.label()}`
   }
 
   input({ msg, send, done }) {

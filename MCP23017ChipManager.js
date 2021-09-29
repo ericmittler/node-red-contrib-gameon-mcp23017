@@ -36,7 +36,6 @@ class MCP23017ChipManager {
   registerOutputPin({ outputPinManager }) {
     try {
       this.mcp.setPinDirection(outputPinManager.pinNum, this.mcp.OUTPUT)
-      this.mcp.invertPin(outputPinManager.pinNum, outputPinManager.invert ? 1 : 0)
       delete this.inputPinManagers[`${outputPinManager.pinNum}`]
       this.outputPinManagers[`${outputPinManager.pinNum}`] = outputPinManager
       this.node.log(`Registered output pin ${outputPinManager.pinNum} @ ${this.label()}`)
@@ -59,7 +58,6 @@ class MCP23017ChipManager {
     try {
       Object.entries(this.inputPinManagers).map(([pinNumStr, inputPinMgr]) => {
         let value = this.mcp.readPin(inputPinMgr.pinNum)
-        if (inputPinMgr.invert) { value = 1 - value }
         const state = value ? 'active' : 'inactive'
         inputPinMgr.toggleState(state)
       })
