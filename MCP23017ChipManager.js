@@ -57,14 +57,21 @@ class MCP23017ChipManager {
   }
 
   checkInputPins() {
+    let value = 0
+    let state = 'unknown'
+    let pinNum = -1
     try {
       Object.entries(this.inputPinManagers).map(([pinNumStr, inputPinMgr]) => {
-        let value = this.mcp.readPin(inputPinMgr.pinNum)
-        const state = value ? 'active' : 'inactive'
+        pinNum = inputPinMgr.pinNum
+        value = this.mcp.readPin(pinNum)
+        state = value ? 'active' : 'inactive'
         inputPinMgr.toggleState(state)
       })
     } catch (error) {
       this.node.error('MCP23017Chip error @ checkInputPins')
+      console.error('pinNum', pinNum)
+      console.error('state', state)
+      console.error('value', value)
       console.error(error)
     }
   }
