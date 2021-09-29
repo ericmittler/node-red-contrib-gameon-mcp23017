@@ -63,6 +63,7 @@ class MCP23017ChipManager {
     try {
       Object.entries(this.inputPinManagers).map(([pinNumStr, inputPinMgr]) => {
         pinNum = inputPinMgr.pinNum
+        console.log('-------- Reading pin', pinNum)
         value = this.mcp.readPin(pinNum)
         state = value ? 'active' : 'inactive'
         inputPinMgr.toggleState(state)

@@ -260,12 +260,11 @@ MCP23017.prototype.writePort = function (port, value) {
  */
 MCP23017.prototype.readPin = function (pin) {
 	if (pin < 8) {
-		this.config.port_a_value = this.bus.readByteSync(this.config.ioaddress, registers.GPIOA);
-		return this.checkBit(this.config.port_a_value, pin);
+		this.config.port_a_value = this.bus.readByteSync(this.config.ioaddress, registers.GPIOA)
+		return this.checkBit(this.config.port_a_value, pin)
 	} else {
-		pin = pin - 8;
-		this.config.port_b_value = this.bus.readByteSync(this.config.ioaddress, registers.GPIOB);
-		return this.checkBit(this.config.port_b_value, pin);
+		this.config.port_b_value = this.bus.readByteSync(this.config.ioaddress, registers.GPIOB)
+		return this.checkBit(this.config.port_b_value, pin - 8)
 	}
 };
 
