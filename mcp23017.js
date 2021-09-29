@@ -75,6 +75,12 @@ const registers = {
 };
 
 const MCP23017 = function (smbus, address) {
+
+this.INPUT = 1
+this.OUTPUT = 0
+this.PULLUP_ENABLED = 1
+this.PULLUP_DISABLED = 0
+
 	this.config = {
 		// Create a byte array for each port
 		// Index: 0 = Direction, 1 = value, 2 = pullup, 3 = polarity
