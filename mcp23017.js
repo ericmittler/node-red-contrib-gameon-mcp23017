@@ -96,13 +96,13 @@ this.PULLUP_DISABLED = 0
 		inta: 0x00, // Interrupt control for port a
 		intb: 0x00, // Interrupt control for port b
 
-		ioaddress: 0x20, // I2C address
+		ioaddress: 0x27, // I2C address
 		// Initial configuration - see IOCON page in the MCP23017 datasheet for more information.
 		ioconfig: 0x22,
 	};
 
 	this.bus = i2c.openSync(smbus);
-	this.config.ioaddress = address || 0x20;
+	this.config.ioaddress = address || 0x27;
 
 	// Write default config
 	this.bus.writeByteSync(this.config.ioaddress, registers.IOCON, this.config.ioconfig);
@@ -259,6 +259,7 @@ MCP23017.prototype.writePort = function (port, value) {
  * @returns {number} Value of given pin, where 0 = logic level low, 1 = logic level high
  */
 MCP23017.prototype.readPin = function (pin) {
+	try {
 	if (pin < 8) {
 		this.config.port_a_value = this.bus.readByteSync(this.config.ioaddress, registers.GPIOA)
 		return this.checkBit(this.config.port_a_value, pin)
@@ -266,6 +267,16 @@ MCP23017.prototype.readPin = function (pin) {
 		this.config.port_b_value = this.bus.readByteSync(this.config.ioaddress, registers.GPIOB)
 		return this.checkBit(this.config.port_b_value, pin - 8)
 	}
+} catch(error) {
+	console.error('Error on MCP23017.prototype.readPin')
+	console.error('pin: ', pin)
+	console.error('this.config.port_a_value: ', this.config.port_a_value)
+	console.error('this.config.port_b_value: ', this.config.port_b_value)
+	console.error('this.config.ioaddress: ', this.config.ioaddress)
+	console.error('registers.GPIOA: ', registers.GPIOA)
+	console.error('registers.GPIOB: ', registers.GPIOB)
+	throw error
+}
 };
 
 /**
