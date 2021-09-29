@@ -1,12 +1,3 @@
-/*
-This file was lifted from 
-https://github.com/jahartley/node-mcp23017
-which was forked from https://github.com/rikvermeer/mcp23017/blob/master/mcp23017.js
-Standing on the shoulders of Giants. Thank you to those who provided this MCP23017
-interface to the i2c chip!
-*/
-
-
 const i2c = require("i2c-bus");
 // const i2c = {
 // 	openSync: function() {
@@ -84,14 +75,6 @@ const registers = {
 };
 
 const MCP23017 = function (smbus, address) {
-
-  const FOOBAR = 'baz'
-
-  this.OUTPUT = 0
-  this.INPUT = 1
-  this.PULLUP_ENABLED = 1
-  this.PULLUP_DISABLED = 1
-
 	this.config = {
 		// Create a byte array for each port
 		// Index: 0 = Direction, 1 = value, 2 = pullup, 3 = polarity
@@ -205,11 +188,12 @@ MCP23017.prototype.setPortDirection = function (port, direction) {
  */
 MCP23017.prototype.setPinPullup = function (pin, value) {
 	if (pin < 8) {
-		this.config.port_a_pullup = this.updateByte(this.config.port_a_pullup, pin, value);
-		this.bus.writeByteSync(this.config.ioaddress, registers.GPPUA, this.config.port_a_pullup);
+		this.config.port_a_pullup = this.updateByte(this.config.port_a_pullup, pin, value)
+		this.bus.writeByteSync(this.config.ioaddress, registers.GPPUA, this.config.port_a_pullup)
 	} else {
-		this.config.port_b_pullup = this.updateByte(this.config.port_a_pullup, pin, value);
-		this.bus.writeByteSync(this.config.ioaddress, registers.GPPUB, this.config.port_b_pullup);
+		// this.config.port_b_pullup = this.updateByte(this.config.port_a_pullup, pin, value);
+		this.config.port_b_pullup = this.updateByte(this.config.port_b_pullup, pin - 8, value)
+		this.bus.writeByteSync(this.config.ioaddress, registers.GPPUB, this.config.port_b_pullup)
 	}
 };
 
@@ -306,7 +290,7 @@ MCP23017.prototype.invertPin = function (pin, polarity) {
 		this.config.port_a_polarity = this.updateByte(this.config.port_a_polarity, pin, polarity);
 		this.bus.writeByteSync(this.config.ioaddress, registers.IPOLA, this.config.port_a_polarity);
 	} else {
-		this.config.port_b_polarity = this.updateByte(this.config.port_b_polarity, pin, polarity);
+		this.config.port_b_polarity = this.updateByte(this.config.port_b_polarity, pin - 8, polarity);
 		this.bus.writeByteSync(this.config.ioaddress, registers.IPOLB, this.config.port_b_polarity);
 	}
 };
