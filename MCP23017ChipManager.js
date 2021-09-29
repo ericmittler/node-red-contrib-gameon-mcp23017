@@ -28,8 +28,8 @@ class MCP23017ChipManager {
       this.inputPinManagers[`${inputPinManager.pinNum}`] = inputPinManager
       this.node.log(`Registered ${inputPinManager.label()} @ ${this.label()}`)
     } catch (error) {
-      this.node.error('MCP23017Chip error @ registerInputPin')
-      console.error(inputPinManager)
+      this.node.error('MCP23017Chip error @ registerInputPin on' +
+        inputPinManager.label())
       console.error(error)
     }
   }
@@ -41,8 +41,8 @@ class MCP23017ChipManager {
       this.outputPinManagers[`${outputPinManager.pinNum}`] = outputPinManager
       this.node.log(`Registered output pin ${outputPinManager.pinNum} @ ${this.label()}`)
     } catch (error) {
-      this.node.error('MCP23017Chip error @ registerOutputPin')
-      console.error(outputPinManager)
+      this.node.error('MCP23017Chip error @ registerOutputPin on ' +
+        outputPinManager.label())
       console.error(error)
     }
   }
