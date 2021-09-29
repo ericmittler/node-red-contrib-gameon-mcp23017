@@ -9,12 +9,7 @@ class MCP23017ChipManager {
     this.node = node
     this.inputPinManagers = {}
     this.outputPinManagers = {}
-    this.mcp = new MCP23017({
-      address: this.address,
-      busNumber: this.busNumber,
-      device: `/dev/i2c-1`,
-      logger: this.node
-    })
+    this.mcp = new MCP23017(this.busNumber, this.address)
     this.node.on('close', (removed, done) => this.close({ done, removed }))
     this.intervalID = setInterval(() => { this.checkInputPins() }, this.intervalMs)
   }
@@ -25,8 +20,10 @@ class MCP23017ChipManager {
 
   registerInputPin({ inputPinManager }) {
     try {
-      const inputMode = inputPinManager.pullUp ? this.mcp.INPUT_PULLUP : this.mcp.INPUT
-      this.mcp.pinMode(inputPinManager.pinNum, inputMode)
+      this.mcp.setPinDirection(inputPinManager.pinNum, this.mcp.INPUT)
+      const inputMode = inputPinManager.pullUp ? this.mcp.PULLUP_ENABLED : this.mcp.PULLUP_DISABLED
+      this.mcp.setPinPullup(inputPinManager.pinNum, inputMode)
+      this.mcp.invertPin(inputPinManager.pinNum, inputPinManager.invert ? 1 : 0)
       delete this.outputPinManagers[`${inputPinManager.pinNum}`]
       this.inputPinManagers[`${inputPinManager.pinNum}`] = inputPinManager
       this.node.log(`Registered ${inputPinManager.label()} @ ${this.label()}`)
@@ -38,7 +35,8 @@ class MCP23017ChipManager {
 
   registerOutputPin({ outputPinManager }) {
     try {
-      this.mcp.pinMode(outputPinManager.pinNum, this.mcp.OUTPUT)
+      this.mcp.setPinDirection(outputPinManager.pinNum, this.mcp.OUTPUT)
+      this.mcp.invertPin(outputPinManager.pinNum, outputPinManager.invert ? 1 : 0)
       delete this.inputPinManagers[`${outputPinManager.pinNum}`]
       this.outputPinManagers[`${outputPinManager.pinNum}`] = outputPinManager
       this.node.log(`Registered output pin ${outputPinManager.pinNum} @ ${this.label()}`)
@@ -50,7 +48,7 @@ class MCP23017ChipManager {
 
   digitalWriteOutput({ pinNum, value }) {
     try {
-      this.mcp.digitalWrite(pinNum, value)
+      this.mcp.writePin(pinNum, value ? 1 : 0)
     } catch (error) {
       this.node.error('MCP23017Chip error @ digitalWriteOutput')
       console.error(error)
@@ -60,15 +58,10 @@ class MCP23017ChipManager {
   checkInputPins() {
     try {
       Object.entries(this.inputPinManagers).map(([pinNumStr, inputPinMgr]) => {
-        this.mcp.digitalRead(inputPinMgr.pinNum, (error, value) => {
-          if (error) {
-            throw error
-          } else {
-            if (inputPinMgr.invert) { value = !value }
-            const state = value ? 'active' : 'inactive'
-            inputPinMgr.toggleState(state)
-          }
-        })
+        let value = this.mcp.readPin(inputPinMgr.pinNum)
+        if (inputPinMgr.invert) { value = 1 - value }
+        const state = value ? 'active' : 'inactive'
+        inputPinMgr.toggleState(state)
       })
     } catch (error) {
       this.node.error('MCP23017Chip error @ checkInputPins')
