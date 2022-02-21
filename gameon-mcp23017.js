@@ -29,7 +29,7 @@ module.exports = (RED) => {
   function GameOnMCP23017VersionNode(config) {
     const node = this
     RED.nodes.createNode(node, config)
-    this.version = new GameOnVersionInfo({node})
+    this.version = new GameOnVersionInfo({ node })
   }
   RED.nodes.registerType('gameon-mcp23017-version', GameOnMCP23017VersionNode)
 
