@@ -76,10 +76,10 @@ const registers = {
 
 const MCP23017 = function (smbus, address) {
 
-this.INPUT = 1
-this.OUTPUT = 0
-this.PULLUP_ENABLED = 1
-this.PULLUP_DISABLED = 0
+	this.INPUT = 1
+	this.OUTPUT = 0
+	this.PULLUP_ENABLED = 1
+	this.PULLUP_DISABLED = 0
 
 	this.config = {
 		// Create a byte array for each port
@@ -162,11 +162,11 @@ MCP23017.prototype.updateByte = function (byte, bit, value) {
  */
 MCP23017.prototype.setPinDirection = function (pin, direction) {
 	if (pin < 8) {
-		this.config.port_a_direction = this.updateByte(this.config.port_a_direction, pin, direction);
-		this.bus.writeByteSync(this.config.ioaddress, registers.IODIRA, this.config.port_a_direction);
+		this.config.port_a_direction = this.updateByte(this.config.port_a_direction, pin, direction)
+		this.bus.writeByteSync(this.config.ioaddress, registers.IODIRA, this.config.port_a_direction)
 	} else {
-		this.config.port_b_direction = this.updateByte(this.config.port_b_direction, pin - 8, direction);
-		this.bus.writeByteSync(this.config.ioaddress, registers.IODIRB, this.config.port_b_direction);
+		this.config.port_b_direction = this.updateByte(this.config.port_b_direction, pin - 8, direction)
+		this.bus.writeByteSync(this.config.ioaddress, registers.IODIRB, this.config.port_b_direction)
 	}
 };
 
@@ -260,23 +260,23 @@ MCP23017.prototype.writePort = function (port, value) {
  */
 MCP23017.prototype.readPin = function (pin) {
 	try {
-	if (pin < 8) {
-		this.config.port_a_value = this.bus.readByteSync(this.config.ioaddress, registers.GPIOA)
-		return this.checkBit(this.config.port_a_value, pin)
-	} else {
-		this.config.port_b_value = this.bus.readByteSync(this.config.ioaddress, registers.GPIOB)
-		return this.checkBit(this.config.port_b_value, pin - 8)
+		if (pin < 8) {
+			this.config.port_a_value = this.bus.readByteSync(this.config.ioaddress, registers.GPIOA)
+			return this.checkBit(this.config.port_a_value, pin)
+		} else {
+			this.config.port_b_value = this.bus.readByteSync(this.config.ioaddress, registers.GPIOB)
+			return this.checkBit(this.config.port_b_value, pin - 8)
+		}
+	} catch (error) {
+		console.error('Error on MCP23017.prototype.readPin')
+		console.error('pin: ', pin)
+		console.error('this.config.port_a_value: ', this.config.port_a_value)
+		console.error('this.config.port_b_value: ', this.config.port_b_value)
+		console.error('this.config.ioaddress: ', this.config.ioaddress)
+		console.error('registers.GPIOA: ', registers.GPIOA)
+		console.error('registers.GPIOB: ', registers.GPIOB)
+		throw error
 	}
-} catch(error) {
-	console.error('Error on MCP23017.prototype.readPin')
-	console.error('pin: ', pin)
-	console.error('this.config.port_a_value: ', this.config.port_a_value)
-	console.error('this.config.port_b_value: ', this.config.port_b_value)
-	console.error('this.config.ioaddress: ', this.config.ioaddress)
-	console.error('registers.GPIOA: ', registers.GPIOA)
-	console.error('registers.GPIOB: ', registers.GPIOB)
-	throw error
-}
 };
 
 /**
