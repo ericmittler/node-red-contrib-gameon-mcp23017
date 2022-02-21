@@ -1,4 +1,5 @@
-const i2c = require("i2c-bus");
+const i2c = require('i2c-bus')
+
 // const i2c = {
 // 	openSync: function() {
 // 		return {
@@ -99,13 +100,13 @@ const MCP23017 = function (smbus, address) {
 		ioaddress: 0x27, // I2C address
 		// Initial configuration - see IOCON page in the MCP23017 datasheet for more information.
 		ioconfig: 0x22,
-	};
+	}
 
 	this.bus = i2c.openSync(smbus);
 	this.config.ioaddress = address || 0x27;
 
 	// Write default config
-	this.bus.writeByteSync(this.config.ioaddress, registers.IOCON, this.config.ioconfig);
+	this.bus.writeByteSync(this.config.ioaddress, registers.IOCON, this.config.ioconfig)
 
 	// Read port a, b
 	this.config.port_a_direction = this.bus.readByteSync(this.config.ioaddress, registers.IODIRA);

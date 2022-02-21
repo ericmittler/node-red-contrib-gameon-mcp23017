@@ -21,11 +21,12 @@ class OutputPinManager extends PinManager {
         let value = [1, true, 'on', '1', 'true'].includes(msg.payload)
         if (this.invert) { value = !value }
         this.chip.digitalWriteOutput({ pinNum: this.pinNum, value })
+        this.node.log(`MCP23017 set pin ${this.pinNum} to ${value}`)
         this.node.status({
           fill: value ? 'green' : 'black', shape: 'dot',
           text: `Output pin ${this.pinNum} on ${this.chip.label()} last wrote "${value}"`
         })
-        send({payload: value})
+        send({ payload: value })
       } catch (error) {
         done(error)
       }
