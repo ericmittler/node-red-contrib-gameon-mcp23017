@@ -26,7 +26,14 @@ class OutputPinManager extends PinManager {
           fill: value ? 'green' : 'black', shape: 'dot',
           text: `Output pin ${this.pinNum} on ${this.chip.label()} last wrote "${value}"`
         })
-        send({ payload: value })
+        send({
+          chipNodeID: this.chipNodeID,
+          chipNode: this.chipNode,
+          chip: this.chip,
+          invert: this.invert,
+          payload: value,
+          pinNum: this.pinNum,
+        })
       } catch (error) {
         done(error)
       }
