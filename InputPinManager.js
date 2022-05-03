@@ -17,7 +17,15 @@ class InputPinManager extends PinManager {
   toggleState(state) {
     if (state != this.lastPinState) {
       const active = state === 'active'
-      this.node.send({ payload: active })
+      this.node.send({
+        chipNodeID: this.chipNodeID,
+        chipNode: this.chipNode,
+        chip: this.chip,
+        invert: this.invert,
+        payload: active,
+        pinNum: this.pinNum,
+        pullUp: this.pullUp,
+      })
       this.lastPinState = state
       this.node.status({
         fill: active ? 'green' : 'black', shape: 'dot',
