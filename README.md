@@ -6,6 +6,7 @@ This is still under construction. Use at your own risk
 ```
 cd /home/pi/go_src/node_red
 npm install https://github.com/ericmittler/node-red-contrib-gameon-mcp23017.git
+node-red-restart
 ```
 
 
@@ -14,4 +15,5 @@ npm install https://github.com/ericmittler/node-red-contrib-gameon-mcp23017.git
 cd /home/pi/go_src/node_red
 npm remove git://github.com/ericmittler/node-red-contrib-gameon-mcp23017.git
 npm install https://github.com/ericmittler/node-red-contrib-gameon-mcp23017.git
+node-red-restart
 ```
