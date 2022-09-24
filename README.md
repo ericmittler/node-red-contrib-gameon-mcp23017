@@ -16,4 +16,5 @@ cd /home/pi/go_src/node_red
 npm remove git://github.com/ericmittler/node-red-contrib-gameon-mcp23017.git
 npm install https://github.com/ericmittler/node-red-contrib-gameon-mcp23017.git
 node-red-restart
+
 ```
