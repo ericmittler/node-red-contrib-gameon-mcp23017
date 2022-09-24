@@ -1,32 +1,57 @@
 {
-  "name": "node-red-contrib-gameon-mcp23017",
-  "version": "0.5.5",
+  "_from": "git+https://github.com/ericmittler/node-red-contrib-gameon-mcp23017.git",
+  "_id": "node-red-contrib-gameon-mcp23017@0.5.5",
+  "_inBundle": false,
+  "_integrity": "",
+  "_location": "/node-red-contrib-gameon-mcp23017",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "git",
+    "raw": "https://github.com/ericmittler/node-red-contrib-gameon-mcp23017.git",
+    "rawSpec": "https://github.com/ericmittler/node-red-contrib-gameon-mcp23017.git",
+    "saveSpec": "git+https://github.com/ericmittler/node-red-contrib-gameon-mcp23017.git",
+    "fetchSpec": "https://github.com/ericmittler/node-red-contrib-gameon-mcp23017.git",
+    "gitCommittish": null
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "git+https://github.com/ericmittler/node-red-contrib-gameon-mcp23017.git#de191cf249a9347ba96b67d7834cb85c1ec51ad8",
+  "_spec": "https://github.com/ericmittler/node-red-contrib-gameon-mcp23017.git",
+  "_where": "/home/pi/go_src/node_red",
+  "author": {
+    "name": "K Eric Mittler"
+  },
+  "bugs": {
+    "url": "https://github.com/ericmittler/node-red-contrib-gameon-mcp23017/issues"
+  },
+  "bundleDependencies": false,
+  "dependencies": {
+    "i2c-bus": "~5.2.2"
+  },
+  "deprecated": false,
   "description": "Game On's implementation for input and output control of the MCP23017 Inter-Integrated Circuit (i2c) board",
+  "devDependencies": {},
+  "homepage": "https://github.com/ericmittler/node-red-contrib-gameon-mcp23017#readme",
   "keywords": [
     "node-red",
     "i2c",
     "mcp23017"
   ],
-  "dependencies": {
-    "i2c-bus": "~5.2.2"
-  },
-  "author": "K Eric Mittler",
   "license": "MIT",
+  "name": "node-red-contrib-gameon-mcp23017",
   "node-red": {
     "nodes": {
       "gameon-mcp23017": "gameon-mcp23017.js"
     }
   },
-  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ericmittler/node-red-contrib-gameon-mcp23017.git"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/ericmittler/node-red-contrib-gameon-mcp23017"
-  },
-  "bugs": {
-    "url": "https://github.com/ericmittler/node-red-contrib-gameon-mcp23017/issues"
-  },
-  "homepage": "https://github.com/ericmittler/node-red-contrib-gameon-mcp23017#readme"
+  "version": "0.5.5"
 }
