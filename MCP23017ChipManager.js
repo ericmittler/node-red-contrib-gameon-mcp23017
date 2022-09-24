@@ -1,10 +1,10 @@
 const MCP23017 = require('./mcp23017')
 
 class MCP23017ChipManager {
-  constructor({ node, name, address, intervalMs }) {
+  constructor({ node, name, busNumber, address, intervalMs }) {
     this.name = name
     this.address = parseInt(address, 16)
-    this.busNumber = 1
+    this.busNumber = parseInt(busNumber)
     this.intervalMs = intervalMs
     this.node = node
     this.inputPinManagers = {}
