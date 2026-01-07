@@ -17,3 +17,12 @@ npm remove git://github.com/ericmittler/node-red-contrib-gameon-mcp23017.git
 npm install https://github.com/ericmittler/node-red-contrib-gameon-mcp23017.git
 node-red-restart
 ```
+
+## Wish List
+
+ - Unit tests
+ - Get working with a newer version of Node
+ - Clean up the meaningless variable names
+ - Provide an example node-red flow.json with documentation for newbie coders to script kiddy
+ - Fix the node-red status to be more intelligible
+ - On node-red start-up, an event is fired with the initial condition. It would be super nice if that was an option.
