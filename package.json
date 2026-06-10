@@ -28,7 +28,7 @@
   },
   "bundleDependencies": false,
   "dependencies": {
-    "i2c-bus": "~5.2.2"
+    "i2c-bus": "~5.2.3"
   },
   "deprecated": false,
   "description": "Game On's implementation for input and output control of the MCP23017 Inter-Integrated Circuit (i2c) board",
