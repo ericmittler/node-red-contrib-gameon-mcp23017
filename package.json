@@ -43,10 +43,7 @@
   "name": "node-red-contrib-gameon-mcp23017",
   "node-red": {
     "nodes": {
-      "gameon-mcp23017-chip": "gameon-mcp23017.js",
-      "gameon-mcp23017-output": "gameon-mcp23017.js",
-      "gameon-mcp23017-input": "gameon-mcp23017.js",
-      "gameon-mcp23017-version": "gameon-mcp23017.js"
+      "gameon-mcp23017": "gameon-mcp23017.js"
     }
   },
   "repository": {
