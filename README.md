@@ -22,7 +22,6 @@ node-red-restart
 ## Wish List
 
  - Unit tests
- - Get working with a newer version of Node
  - Clean up the meaningless variable names
  - Provide an example node-red flow.json with documentation for newbie coders to script kiddy
  - Fix the node-red status to be more intelligible
